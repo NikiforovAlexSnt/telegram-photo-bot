@@ -1,16 +1,10 @@
 import os
-print("DEBUG: Files in working dir:", os.listdir())
-print("DEBUG: GOOGLE_TOKEN_JSON in env:", 'GOOGLE_TOKEN_JSON' in os.environ)
 import io
-import logging
 import json
+import logging
 
-if 'GOOGLE_TOKEN_JSON' in os.environ:
-    with open('token.json', 'w') as f:
-        f.write(os.environ['GOOGLE_TOKEN_JSON'])
 from googleapiclient.http import MediaIoBaseUpload
 from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, MessageHandler, filters, CommandHandler
@@ -24,16 +18,19 @@ SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def get_drive_service():
     creds = None
-
     if 'GOOGLE_TOKEN_JSON' in os.environ:
-        info = json.loads(os.environ['GOOGLE_TOKEN_JSON'])
-        creds = Credentials.from_authorized_user_info(info, SCOPES)
+        try:
+            creds_json = json.loads(os.environ['GOOGLE_TOKEN_JSON'])
+            creds = Credentials.from_authorized_user_info(creds_json, SCOPES)
+        except Exception as e:
+            raise Exception(f"Не удалось распарсить GOOGLE_TOKEN_JSON: {e}")
 
     if not creds or not creds.valid:
         raise Exception("Нет действительного токена. Проверь GOOGLE_TOKEN_JSON.")
 
     return build('drive', 'v3', credentials=creds)
 
+# Инициализация Google Drive
 drive_service = get_drive_service()
 
 # === Telegram logic ===
