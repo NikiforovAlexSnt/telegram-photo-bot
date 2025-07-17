@@ -24,10 +24,14 @@ SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
 def get_drive_service():
     creds = None
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+
+    if 'GOOGLE_TOKEN_JSON' in os.environ:
+        info = json.loads(os.environ['GOOGLE_TOKEN_JSON'])
+        creds = Credentials.from_authorized_user_info(info, SCOPES)
+
     if not creds or not creds.valid:
-        raise Exception("Нет действительного токена. Создай token.json локально и загрузи его вместе с ботом.")
+        raise Exception("Нет действительного токена. Проверь GOOGLE_TOKEN_JSON.")
+
     return build('drive', 'v3', credentials=creds)
 
 drive_service = get_drive_service()
