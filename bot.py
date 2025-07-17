@@ -30,9 +30,6 @@ def get_drive_service():
 
     return build('drive', 'v3', credentials=creds)
 
-# Инициализация Google Drive
-drive_service = get_drive_service()
-
 # === Telegram logic ===
 logging.basicConfig(level=logging.INFO)
 photo_buffer = {}
