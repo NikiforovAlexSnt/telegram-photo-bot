@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: telegram-photo-bot
+    runtime: python
+    buildCommand: ""
+    startCommand: python bot.py
+    envVars:
+      - key: TELEGRAM_TOKEN
+        value: "7559061459:AAEs_4R5pqh_MNrTrtVwQLqQEKkWM9iP2dk"
+      - key: GDRIVE_FOLDER_ID
+        value: "12JoOdCsHsUNHoDPpOEbEND8qDl9BYHgg"
