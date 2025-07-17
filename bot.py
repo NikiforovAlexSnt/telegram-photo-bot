@@ -57,6 +57,12 @@ async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
     media = photo_buffer.pop(user_id)
     media.seek(0)
 
+    try:
+        drive_service = get_drive_service()
+    except Exception as e:
+        await update.message.reply_text(f"❌ Ошибка доступа к Google Drive: {e}")
+        return
+
     file_metadata = {
         'name': file_name,
         'parents': [GDRIVE_FOLDER_ID]
