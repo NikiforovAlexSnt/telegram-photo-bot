@@ -1,4 +1,6 @@
 import os
+print("DEBUG: Files in working dir:", os.listdir())
+print("DEBUG: GOOGLE_TOKEN_JSON in env:", 'GOOGLE_TOKEN_JSON' in os.environ)
 import io
 import logging
 import json
