@@ -1,0 +1,6 @@
+# Отключаем чувствительные и служебные файлы
+token.json
+credentials.json
+__pycache__/
+*.pyc
+.env
