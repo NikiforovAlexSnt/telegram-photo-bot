@@ -1,6 +1,11 @@
 import os
 import io
 import logging
+import json
+
+if 'GOOGLE_TOKEN_JSON' in os.environ:
+    with open('token.json', 'w') as f:
+        f.write(os.environ['GOOGLE_TOKEN_JSON'])
 from googleapiclient.http import MediaIoBaseUpload
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
